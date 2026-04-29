@@ -54,6 +54,8 @@ student1 = Academy("준영", "python")
 student2 = Academy("동현", "C")
 student3 = Academy("병철", "java")
 
+Academy.get_total_students()
+
 #수강생 개별 활동
 student1.attend()
 student1.attend()
