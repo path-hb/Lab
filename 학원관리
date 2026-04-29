@@ -1,0 +1,75 @@
+class Academy:
+    academy_name = "코딩반"
+    total_students = 0
+
+    def __init__(self, name, sub):
+        self.name = name
+        self.sub = sub
+        self.attendance_count = 0
+        self.__tuition = 500000 
+        Academy.total_students += 1
+
+    @property
+    def tuition(self):
+        return f"현재 {self.name} 학생의 수강료는 {self.__tuition}원 입니다."
+    
+    @tuition.setter
+    def tuition(self, discount_rate):
+        safe_rate = max(0, min(100, discount_rate)) #할인율 제한
+        discount_amount = self.__tuition * (safe_rate / 100)
+        self.__tuition -= int(discount_amount)
+
+        print(f"할인율 {safe_rate}%가 적용되었습니다.")
+        print(f"차감 금액: {int(discount_amount)}원 / 최종 수강료ㅣ {self.__tuition}원")
+
+    #메서드 설계
+    #1.출석체크
+    def attend(self):
+        self.attendance_count += 1
+        print(f"{self.name} 학생이 출석했습니다.")
+        print(f"현재 총 출석 횟수: {self.attendance_count}회")
+
+    #2.클래스메서드
+    @classmethod
+    #학원이름 변경공지
+    def change_academy_name(cls, new_name):
+        old_name = cls.academy_name
+        cls.academy_name = new_name
+        print(f"[공지]학원 이름이 '{old_name}'에서 '{cls.academy_name}'으로 변경되었습니다")
+    
+    #전체 수강생 수 조회
+    @classmethod
+    def get_total_students(cls):
+        print(f"현재 {cls.academy_name}의 총 수강생은 {cls.total_students}명 입니다.")
+
+    #할인율계산기 정적메서드
+    @staticmethod
+    def estimate_discount(months):
+        if months >= 6: return "20% 할인 대상"
+        elif months >= 3: return "10% 할인 대상"
+        return "할인 대상 아님"
+    
+#수강생 등록
+student1 = Academy("준영", "python")
+student2 = Academy("동현", "C")
+student3 = Academy("병철", "java")
+
+#수강생 개별 활동
+student1.attend()
+student1.attend()
+student1.attend()
+student1.attend()
+student2.attend()
+student2.attend()
+student3.attend()
+
+#수강료 관리.
+print(student1.tuition)
+student1.tuition = 50
+print(student1.tuition)
+
+#학원이름 변경
+Academy.change_academy_name("SBS학원")
+
+#할인율 계산
+print(f"6개월 수강 시: {Academy.estimate_discount(6)}")
